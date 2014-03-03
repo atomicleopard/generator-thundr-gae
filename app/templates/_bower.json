@@ -1,0 +1,14 @@
+{
+  "name": "<%= _.slugify(project) %>",
+  "version": "1.0.0",
+  "directory": "target/bower_components",
+  "dependencies": {
+    "modernizr": "~2.7.0",
+  	"json3": "~3.3.0",
+    "jquery": ">=1.9.0"
+  },
+  "devDependencies": {
+  },
+  "exportsOverride": {
+  }
+}
