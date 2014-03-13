@@ -1,9 +1,44 @@
 # generator-thundr-gae [![Build Status](https://secure.travis-ci.org/atomicleopard/generator-thundr-gae.png?branch=master)](https://travis-ci.org/atomicleopard/generator-thundr-gae)
 
-> [Yeoman](http://yeoman.io) generator
+This [Yeoman](http://yeoman.io) generator will create application scaffolding for a [thundr](http://3wks.github.io/thundr/) application
+ready for Google AppEngine which is setup up to use [Maven](http://maven.apache.org/), [Grunt](http://gruntjs.com) and [Bower](http://bower.io).
 
+This is the java hipster's toolchain of choice for modern web apps.
 
-## Getting Started
+Once you're done, you will be able to:
+
+#### Build all your source and assets with maven:
+```
+mvn package
+```
+
+#### Have live changes to your css, javascript, less, fonts, images watch and processed in realtime 
+```grunt``` or ```grunt watch```
+
+#### Run the appengine locally
+```
+mvn appengine:devserver
+```
+
+#### Deploy to appengine
+```
+mvn appengine:update
+```
+
+This toolchain requires:
+* Java (duh) in JDK fashion
+* Maven
+* Node
+* Bower (installed globally using node - ```node install -g bower```)
+* Grunt (installed globally using node - ```node install -g grunt```)
+* This generator installed (```npm install -g generator-thundr-gae```)
+
+Then just run the generator in your desired project directory and answer the questions:
+```
+mkdir my-project;
+cd my-project;
+yo thundr-gae
+```
 
 ### What is Yeoman?
 
