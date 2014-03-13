@@ -6,8 +6,8 @@
   "main": "app/index.js",
   "repository": "atomicleopard/generator-thundr-gae",
   "author": {
-    "name": "Atomic Leopard",
-    "email": "",
+    "name": "Nick Okunew - Atomic Leopard",
+    "email": "nick@atomicleopard.com",
     "url": "https://github.com/atomicleopard"
   },
   "engines": {
