@@ -61,12 +61,6 @@ module.exports = function (grunt) {
           'src/main/webapp/javascript/{,*/}*.js'
         ]
       },
-    karma: {
-      unit: {
-        configFile: 'src/test/javascript/karma.conf.js',
-        singleRun: true
-      }
-    },
     /**
      * Watch for changes to the asset groups and re-process as necessary.
      */

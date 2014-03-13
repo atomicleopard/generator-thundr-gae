@@ -20,7 +20,7 @@
     "app"
   ],
   "keywords": [
-    "yeoman-generator"
+    "yeoman-generator thundr thundr-gae java grunt bower maven"
   ],
   "dependencies": {
     "yeoman-generator": "~0.16.0",
