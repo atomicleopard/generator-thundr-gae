@@ -43,6 +43,15 @@ var ThundrGaeGenerator = yeoman.generators.Base.extend({
     this.template('_package.json', 'package.json');
     this.template('_bower.json', 'bower.json');
     this.directory('src', 'src');
+    this.mkdir('src/main/static/');
+    this.mkdir('src/main/static/images');
+    this.mkdir('src/main/static/font');
+    this.mkdir('src/main/static/javascript');
+    this.mkdir('src/main/static/less');
+    this.mkdir('src/main/static/less/mixins');
+    this.mkdir('src/main/static/less/styles');
+    this.mkdir('src/main/static/partials');
+    this.mkdir('src/main/static/styles');
     this.template('_appengine-web.xml', 'src/main/webapp/WEB-INF/appengine-web.xml');
   }
 });
