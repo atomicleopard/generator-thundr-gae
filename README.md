@@ -40,6 +40,40 @@ cd my-project;
 yo thundr-gae
 ```
 
+### generator-thundr-gae
+
+This generator will create application scaffolding for a [thundr](http://3wks.github.io/thundr/) application
+ready for Google AppEngine which is setup up to use [Maven](http://maven.apache.org/), [Grunt](http://gruntjs.com) and [Bower](http://bower.io).
+
+This is the java hipster's toolchain of choice for modern web apps.
+
+Once you're done, you will be able to:
+
+#### Build all your source and assets with maven:
+```
+mvn package
+```
+
+#### Have live changes to your css, javascript, less, fonts, images watch and processed in realtime 
+```grunt``` or ```grunt watch```
+
+#### Run the appengine locally
+```
+mvn appengine:devserver
+```
+
+#### Deploy to appengine
+```
+mvn appengine:update
+```
+
+This toolchain requires:
+Java (duh) in JDK fashion
+Maven
+Node
+Bower (installed globally using node - ```node install -g bower```
+Grunt (installed globally using node - ```node install -g grunt```
+
 ### What is Yeoman?
 
 Trick question. It's not a thing. It's this guy:
