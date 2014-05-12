@@ -7,7 +7,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<gae.version>1.8.9</gae.version>
+		<gae.version>1.9.2</gae.version>
 		<thundr.version>1.0.0</thundr.version>
 	</properties>
 
