@@ -64,6 +64,39 @@ module.exports = function (grunt) {
           '<%%= basic.src %>/javascript/{,**/}*.js'
         ]
       },
+      
+	// unit test settings
+	karma: {
+		options: {
+			basePath:			'', 						// base path, that will be used to resolve files and exclude
+			frameworks:			['jasmine'],				// testing framework to use (jasmine/mocha/qunit/...)
+			port: 				'<%%= yeoman.port + 2 %>',	// web server port
+			logLevel: 			"LOG_INFO", 				// level of logging: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
+			autoWatch: 			true, 						// enable / disable watching file and executing tests whenever any file changes
+			browsers: 			['Chrome'],					// Start these browsers. Options: Chrome, ChromeCanary, Firefox, Opera, Safari (only Mac), PhantomJS, IE (only Windows)
+			reporters: 			['progress', 'coverage'],
+			coverageReporter: 	{ type : 'html', dir : 'target/js-coverage/' },
+
+			// list of files / patterns to load in the browser to support testing
+			files: [
+			    '<%%= basic.dist %>/lib/jquery/jquery.js',
+				// Add any other core dependencies here(e.g. bootstrap, angular, etc)
+				'<%%= basic.dist %>/javascript/**/*.js',
+				'src/test/static/**/*Test.js'
+			],
+			// list of files / patterns to exclude
+			exclude: [],
+
+			// define files interested in for coverage
+			preprocessors: {
+				'src/main/webapp/static/javascript/*.js': ['coverage'] // cannot do interpolation, so we hardcode the base path
+			},
+		},
+		single: 	{  singleRun: true }, // use this in build
+		continuous: {  singleRun: false } // use this for continuous mode and file watching when writing tests
+	},
+      
+      
     /**
      * Watch for changes to the asset groups and re-process as necessary.
      */
@@ -108,22 +141,29 @@ module.exports = function (grunt) {
       	}
   	});
 
+  	grunt.registerTask('default', [
+         'build',
+         'test',
+         'watch'
+    ]);
+  	
 	grunt.registerTask('build', [
 		'clean:static',
 		'copy',
 		'less',
 		'uglify',
-		'bower'
+		'bower',
     ]);
 
-	grunt.registerTask('default', [
-		'build',
-		'watch'
+	grunt.registerTask('test', [
+	    'build',
+		'karma:single'
 	]);
 	
 	grunt.registerTask('eclipse', [
 		'default'
 	]);
+	
 	grunt.registerTask('intellij', [
             'build',
             'configureProxies',  
