@@ -146,6 +146,19 @@
 						</configuration>
 					</execution>
 					<execution>
+						<id>test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>grunt</executable>
+							<arguments>
+								<argument>test</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
 						<id>build</id>
 						<goals>
 							<goal>exec</goal>
