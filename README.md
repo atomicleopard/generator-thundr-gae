@@ -1,4 +1,6 @@
-# generator-thundr-gae [![thundr Logo](http://3wks.github.io/thundr/static/img/logoFullSmall.png)](http://3wks.github.io/thundr/index.html) [![Build Status](https://secure.travis-ci.org/atomicleopard/generator-thundr-gae.png?branch=master)](https://travis-ci.org/atomicleopard/generator-thundr-gae)
+# generator-thundr-gae [![Build Status](https://secure.travis-ci.org/atomicleopard/generator-thundr-gae.png?branch=master)](https://travis-ci.org/atomicleopard/generator-thundr-gae)
+
+[![thundr Logo](http://3wks.github.io/thundr/static/img/logoFullSmall.png)](http://3wks.github.io/thundr/index.html) 
 
 This [Yeoman](http://yeoman.io) generator will create application scaffolding for a [thundr](http://3wks.github.io/thundr/) application
 ready for Google AppEngine which is setup up to use [Maven](http://maven.apache.org/), [Grunt](http://gruntjs.com) and [Bower](http://bower.io).
@@ -58,18 +60,17 @@ yo thundr-gae
 
 The resulting project will be a standard maven project, with the addition of extra source folders.
 
-```src/main/static``` contains all your web assets. The grunt build will copy these to src/main/web/static when
+* ```src/main/static``` contains all your web assets. The grunt build will copy these to src/main/web/static when
 you run it.
-```src/test/static``` contains tests for your javascript assets.
+* ```src/test/static``` contains tests for your javascript assets.
 
-
-```src/main/css``` contains any css files that you want output
-```src/main/font``` contains your font files (css, eot, svg, ttf, woff etc)
-```src/main/images``` contains image files
-```src/main/javascript``` contains application javascript, they'll be minified
-```src/main/less/styles``` contains any less files that should result in an output css file.
-```src/main/less/mixins``` contains less mixins used by the less files in styles, but shouldn't result in css themselves
-```src/main/templates``` contains partials, templates and html files 
+* ```src/main/css``` contains any css files that you want output
+* ```src/main/font``` contains your font files (css, eot, svg, ttf, woff etc)
+* ```src/main/images``` contains image files
+* ```src/main/javascript``` contains application javascript, they'll be minified
+* ```src/main/less/styles``` contains any less files that should result in an output css file.
+* ```src/main/less/mixins``` contains less mixins used by the less files in styles, but shouldn't result in css themselves
+* ```src/main/templates``` contains partials, templates and html files 
 
 
 ### What is Yeoman?
