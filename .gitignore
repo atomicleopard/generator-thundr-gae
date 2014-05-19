@@ -4,6 +4,7 @@ bin/
 bower_components/
 node_modules/
 test-output/
+test/temp
 
 .classpath
 .settings

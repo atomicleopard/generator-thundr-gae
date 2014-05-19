@@ -20,8 +20,17 @@ describe('thundr-gae generator', function () {
   it('creates expected files', function (done) {
     var expected = [
       // add files you expect to exist here.
-      '.jshintrc',
-      '.editorconfig'
+      'package.json',
+      'bower.json',
+      'Gruntfile.js',
+      'pom.xml',
+      '.gitignore',
+      'src/main/java/ApplicationModule.java',
+      'src/main/java/ApplicationRoutes.java',
+      'src/main/resources/application.properties',
+      'src/main/webapp/WEB-INF/appengine-web.xml',
+      'src/main/webapp/WEB-INF/web.xml',
+      'src/main/webapp/WEB-INF/logging.properties'
     ];
 
     helpers.mockPrompt(this.app, {
