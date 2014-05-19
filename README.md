@@ -45,8 +45,8 @@ This toolchain requires:
 * Java (duh) in JDK fashion
 * Maven
 * Node
-* Bower (installed globally using node - ```node install -g bower```)
-* Grunt (installed globally using node - ```node install -g grunt```)
+* Bower (installed globally using npm - ```npm install -g bower```)
+* Grunt (installed globally using npm - ```npm install -g grunt```)
 * This generator installed (```npm install -g generator-thundr-gae```)
 
 Then just run the generator in your desired project directory and answer the questions:
