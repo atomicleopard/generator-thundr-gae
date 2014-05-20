@@ -158,6 +158,19 @@
 							</arguments>
 						</configuration>
 					</execution>
+					<execution>
+						<id>test</id>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<phase>test</phase>
+						<configuration>
+							<executable>grunt</executable>
+							<arguments>
+								<argument>test</argument>
+							</arguments>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 			<plugin> <!-- Run Unit tests with surefire -->

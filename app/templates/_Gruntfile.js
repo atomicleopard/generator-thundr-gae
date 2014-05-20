@@ -142,8 +142,7 @@ module.exports = function (grunt) {
   	});
 
   	grunt.registerTask('default', [
-         'build',
-         'test',
+         'run',
          'watch'
     ]);
   	
@@ -154,11 +153,15 @@ module.exports = function (grunt) {
 		'uglify',
 		'bower',
     ]);
-
+	
 	grunt.registerTask('test', [
-	    'build',
 		'karma:single'
 	]);
+	
+	grunt.registerTask('run', [
+         'build',
+         'test',         
+    ]);
 	
 	grunt.registerTask('eclipse', [
 		'default'
