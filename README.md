@@ -16,7 +16,7 @@ mvn package
 
 #### Deploy to appengine
 ```
-mvn appengine:update
+mvn appengine:update -PenvironmentName
 ```
 
 #### Have live changes to your css, javascript, less, fonts, images watch and processed in realtime 

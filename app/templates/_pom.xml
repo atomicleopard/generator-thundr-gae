@@ -7,8 +7,10 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<gae.version>1.9.2</gae.version>
-		<thundr.version>1.0.0</thundr.version>
+		<gae.version>1.9.5</gae.version>
+		<thundr.version>1.1.0</thundr.version>
+		<!-- We set this to a default so that you only override it if you need to -->
+		<gae.appVersion>dev</gae.appVersion>
 	</properties>
 
 	<dependencies>
@@ -92,6 +94,12 @@
 			<version><%= _.unescape('${gae.version}')%></version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.google.appengine</groupId>
+			<artifactId>appengine-tools-sdk</artifactId>
+			<version><%= _.unescape('${gae.version}')%></version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -105,27 +113,6 @@
 					<source>1.7</source>
 					<target>1.7</target>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.6</version>
-				<executions>
-					<execution>
-						<phase>compile</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory><%= _.unescape('${project.build.directory}')%>/<%= _.unescape('${project.build.finalName}')%></outputDirectory>
-							<resources>
-								<resource>
-									<directory>src/main/webapp</directory>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -196,12 +183,46 @@
 				<version>2.3</version>
 				<configuration>
 					<archiveClasses>true</archiveClasses>
+					<webResources>
+						<resource>
+							<directory>src/main/webapp/WEB-INF</directory>
+							<targetPath>WEB-INF</targetPath>
+							<filtering>true</filtering>
+							<includes>
+								<include>appengine-web.xml</include>
+							</includes>
+						</resource>
+					</webResources>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>1.3.1</version>
+				<executions>
+					<execution>
+						<id>enforce-property</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<phase>package</phase>
+						<configuration>
+							<rules>
+								<requireProperty>
+									<property>gae.appId</property>
+									<message>To prevent unintentional deployment this pom file requires the property 'gae.appId' to be supplied when running a build - you can use a profile (-Puat) or a property
+										(-Dgae.appId=ww-myapp-uat)</message>
+								</requireProperty>
+							</rules>
+							<fail>true</fail>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>com.google.appengine</groupId>
 				<artifactId>appengine-maven-plugin</artifactId>
-				<version><%= _.unescape('${gae.version}')%>-maven3.0</version>
+				<version><%= _.unescape('${gae.version}')%></version>
 				<configuration>
 					<address>0.0.0.0</address>
 					<port>8080</port>
@@ -238,6 +259,30 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<gae.appId><%= _.unescape('${project.artifactId}')%>-dev</gae.appId>
+			</properties>
+		</profile>
+		<profile>
+			<id>uat</id>
+			<properties>
+				<gae.appId><%= _.unescape('${project.artifactId}')%>-uat</gae.appId>
+			</properties>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<gae.appId><%= _.unescape('${project.artifactId}')%>-prod</gae.appId>
+			</properties>
+		</profile>
+	</profiles>
 
 	<modelVersion>4.0.0</modelVersion>
 </project>

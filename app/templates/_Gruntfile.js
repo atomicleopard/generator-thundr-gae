@@ -81,7 +81,7 @@ module.exports = function (grunt) {
 			files: [
 			    '<%%= basic.dist %>/lib/jquery/jquery.js',
 				// Add any other core dependencies here(e.g. bootstrap, angular, etc)
-				'<%%= basic.dist %>/javascript/**/*.js',
+				'<%%= basic.src %>/javascript/**/*.js',
 				'src/test/static/**/*Test.js'
 			],
 			// list of files / patterns to exclude
