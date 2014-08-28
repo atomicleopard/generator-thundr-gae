@@ -234,13 +234,11 @@
 				<artifactId>maven-eclipse-plugin</artifactId>
 				<version>2.9</version>
 				<configuration>
-					<configuration>
-						<sourceIncludes>
-							<sourceInclude>**/*</sourceInclude>
-						</sourceIncludes>
-						<downloadSources>true</downloadSources>
-						<downloadJavadocs>true</downloadJavadocs>
-					</configuration>
+					<sourceIncludes>
+						<sourceInclude>**/*</sourceInclude>
+					</sourceIncludes>
+					<downloadSources>true</downloadSources>
+					<downloadJavadocs>true</downloadJavadocs>
 					<additionalProjectnatures>
 						<projectnature>org.eclipse.m2e.core.maven2Nature</projectnature>
 						<projectnature>com.google.appengine.eclipse.core.gaeNature</projectnature>
