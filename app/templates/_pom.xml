@@ -4,122 +4,47 @@
 	<artifactId><%= _.slugify(project) %></artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
+	
+    <parent>
+		<groupId>com.threewks.thundr</groupId>
+		<artifactId>thundr-gae-app</artifactId>
+		<version>1</version>
+	</parent>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<gae.version>1.9.5</gae.version>
-		<thundr.version>1.1.0</thundr.version>
-		<!-- We set this to a default so that you only override it if you need to -->
-		<gae.appVersion>dev</gae.appVersion>
+		<appId><%= _.unescape('${project.artifactId}-${project.activeProfiles[0].id}')%></appId>
+		<appVersion><%= _.unescape('${user.name}')%></appVersion>
 	</properties>
-
+	
+	<!-- 
+		Profiles define the environments available.
+	 	The active profile determines what environment you're deploying to
+	 	when running appengine:update or similar
+	-->
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile><id>uat</id></profile>
+		<profile><id>prod</id></profile>
+	</profiles>
+	
 	<dependencies>
-		<!-- thundr Dependency -->
-		<dependency>
-			<groupId>com.threewks.thundr</groupId>
-			<artifactId>thundr-gae</artifactId>
-			<version><%= _.unescape('${thundr.version}')%></version>
-			<scope>compile</scope>
-		</dependency>
-		<!-- Servlet dependencies -->
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<version>1.2</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.el</groupId>
-			<artifactId>javax.el-api</artifactId>
-			<version>2.2.4</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>joda-time</groupId>
-			<artifactId>joda-time-jsptags</artifactId>
-			<version>1.1.1</version>
-			<scope>runtime</scope>
-		</dependency>
-
-		<!-- GAE Dependencies -->
-		<dependency>
-			<groupId>com.google.appengine</groupId>
-			<artifactId>appengine-api-1.0-sdk</artifactId>
-			<version><%= _.unescape('${gae.version}')%></version>
-			<scope>compile</scope>
-		</dependency>
-
-
-		<!-- Test Dependencies -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.11</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hamcrest</groupId>
-			<artifactId>hamcrest-all</artifactId>
-			<version>1.3</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>1.9.5</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.threewks.thundr</groupId>
-			<artifactId>thundr-gae</artifactId>
-			<version><%= _.unescape('${thundr.version}')%></version>
-			<scope>test</scope>
-			<type>test-jar</type>
-		</dependency>
-		<dependency>
-			<groupId>com.google.appengine</groupId>
-			<artifactId>appengine-testing</artifactId>
-			<version><%= _.unescape('${gae.version}')%></version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.google.appengine</groupId>
-			<artifactId>appengine-api-stubs</artifactId>
-			<version><%= _.unescape('${gae.version}')%></version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.google.appengine</groupId>
-			<artifactId>appengine-tools-sdk</artifactId>
-			<version><%= _.unescape('${gae.version}')%></version>
-			<scope>test</scope>
-		</dependency>
+	    <!-- Additional or overridden dependencies go here -->
 	</dependencies>
 
 	<build>
-		<outputDirectory><%= _.unescape('${project.build.directory}')%>/<%= _.unescape('${project.build.finalName}')%>/WEB-INF/classes</outputDirectory>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.0</version>
-				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-				</configuration>
-			</plugin>
+		    <!-- This plugin runs the grunt build at the appropriate lifecycle points of the maven build -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>1.2.1</version>
 				<executions>
-					<execution>
+					<execution> <!-- grunt clean during mvn clean -->
 						<id>clean</id>
 						<phase>clean</phase>
 						<goals>
@@ -132,7 +57,7 @@
 							</arguments>
 						</configuration>
 					</execution>
-					<execution>
+					<execution> <!-- grunt build during mvn generate-sources -->
 						<id>build</id>
 						<goals>
 							<goal>exec</goal>
@@ -145,7 +70,7 @@
 							</arguments>
 						</configuration>
 					</execution>
-					<execution>
+					<execution> <!-- grunt test during mvn test -->
 						<id>test</id>
 						<goals>
 							<goal>exec</goal>
@@ -160,127 +85,8 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin> <!-- Run Unit tests with surefire -->
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.13</version>
-			</plugin>
-			<plugin> <!-- Run Integration tests with Failsafe -->
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>2.12</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>integration-test</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.3</version>
-				<configuration>
-					<archiveClasses>true</archiveClasses>
-					<webResources>
-						<resource>
-							<directory>src/main/webapp/WEB-INF</directory>
-							<targetPath>WEB-INF</targetPath>
-							<filtering>true</filtering>
-							<includes>
-								<include>appengine-web.xml</include>
-							</includes>
-						</resource>
-					</webResources>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-enforcer-plugin</artifactId>
-				<version>1.3.1</version>
-				<executions>
-					<execution>
-						<id>enforce-property</id>
-						<goals>
-							<goal>enforce</goal>
-						</goals>
-						<phase>package</phase>
-						<configuration>
-							<rules>
-								<requireProperty>
-									<property>gae.appId</property>
-									<message>To prevent unintentional deployment this pom file requires the property 'gae.appId' to be supplied when running a build - you can use a profile (-Puat) or a property
-										(-Dgae.appId=ww-myapp-uat)</message>
-								</requireProperty>
-							</rules>
-							<fail>true</fail>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>com.google.appengine</groupId>
-				<artifactId>appengine-maven-plugin</artifactId>
-				<version><%= _.unescape('${gae.version}')%></version>
-				<configuration>
-					<address>0.0.0.0</address>
-					<port>8080</port>
-					<disableUpdateCheck>true</disableUpdateCheck>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-eclipse-plugin</artifactId>
-				<version>2.9</version>
-				<configuration>
-					<sourceIncludes>
-						<sourceInclude>**/*</sourceInclude>
-					</sourceIncludes>
-					<downloadSources>true</downloadSources>
-					<downloadJavadocs>true</downloadJavadocs>
-					<additionalProjectnatures>
-						<projectnature>org.eclipse.m2e.core.maven2Nature</projectnature>
-						<projectnature>com.google.appengine.eclipse.core.gaeNature</projectnature>
-					</additionalProjectnatures>
-					<additionalBuildcommands>
-						<buildcommand>org.eclipse.m2e.core.maven2Builder</buildcommand>
-						<buildcommand>com.google.appengine.eclipse.core.projectValidator</buildcommand>
-						<buildcommand>com.google.gdt.eclipse.core.webAppProjectValidator</buildcommand>
-					</additionalBuildcommands>
-					<classpathContainers>
-						<classpathContainer>org.eclipse.jdt.launching.JRE_CONTAINER</classpathContainer>
-						<classpathContainer>com.google.appengine.eclipse.core.GAE_CONTAINER</classpathContainer>
-						<classpathContainer>org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER</classpathContainer>
-					</classpathContainers>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
-
-	<profiles>
-		<profile>
-			<id>dev</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<gae.appId><%= _.unescape('${project.artifactId}')%>-dev</gae.appId>
-			</properties>
-		</profile>
-		<profile>
-			<id>uat</id>
-			<properties>
-				<gae.appId><%= _.unescape('${project.artifactId}')%>-uat</gae.appId>
-			</properties>
-		</profile>
-		<profile>
-			<id>prod</id>
-			<properties>
-				<gae.appId><%= _.unescape('${project.artifactId}')%>-prod</gae.appId>
-			</properties>
-		</profile>
-	</profiles>
 
 	<modelVersion>4.0.0</modelVersion>
 </project>
