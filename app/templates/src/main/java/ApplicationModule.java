@@ -3,7 +3,7 @@ import com.threewks.thundr.gae.objectify.ObjectifyModule;
 import com.threewks.thundr.injection.BaseModule;
 import com.threewks.thundr.injection.UpdatableInjectionContext;
 import com.threewks.thundr.module.DependencyRegistry;
-import com.threewks.thundr.route.Routes;
+import com.threewks.thundr.route.Router;
 
 public class ApplicationModule extends BaseModule {
 
@@ -23,8 +23,8 @@ public class ApplicationModule extends BaseModule {
 	public void start(UpdatableInjectionContext injectionContext) {
 		super.start(injectionContext);
 
-		Routes routes = injectionContext.get(Routes.class);
-		ApplicationRoutes.addRoutes(routes);
+		Router router = injectionContext.get(Router.class);
+		ApplicationRoutes.addRoutes(router);
 	}
 
 }
