@@ -8,7 +8,7 @@
     <parent>
 		<groupId>com.threewks.thundr</groupId>
 		<artifactId>thundr-gae-app</artifactId>
-		<version>2</version>
+		<version>3</version>
 	</parent>
 
 	<properties>
