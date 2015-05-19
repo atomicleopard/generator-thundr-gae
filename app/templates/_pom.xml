@@ -4,8 +4,8 @@
 	<artifactId><%= _.slugify(project) %></artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
-	
-    <parent>
+
+	<parent>
 		<groupId>com.threewks.thundr</groupId>
 		<artifactId>thundr-gae-app</artifactId>
 		<version>3</version>
@@ -15,12 +15,8 @@
 		<appId><%= _.unescape('${project.artifactId}-${project.activeProfiles[0].id}')%></appId>
 		<appVersion><%= _.unescape('${user.name}')%></appVersion>
 	</properties>
-	
-	<!-- 
-		Profiles define the environments available.
-	 	The active profile determines what environment you're deploying to
-	 	when running appengine:update or similar
-	-->
+
+	<!-- Profiles define the environments available. The active profile determines what environment you're deploying to when running appengine:update or similar -->
 	<profiles>
 		<profile>
 			<id>dev</id>
@@ -28,17 +24,21 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 		</profile>
-		<profile><id>uat</id></profile>
-		<profile><id>prod</id></profile>
+		<profile>
+			<id>uat</id>
+		</profile>
+		<profile>
+			<id>prod</id>
+		</profile>
 	</profiles>
-	
+
 	<dependencies>
-	    <!-- Additional or overridden dependencies go here -->
+		<!-- Additional or overridden dependencies go here -->
 	</dependencies>
 
 	<build>
 		<plugins>
-		    <!-- This plugin runs the grunt build at the appropriate lifecycle points of the maven build -->
+			<!-- This plugin runs the grunt build at the appropriate lifecycle points of the maven build -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
@@ -84,6 +84,16 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.google.appengine</groupId>
+				<artifactId>appengine-maven-plugin</artifactId>
+				<version><%= _.unescape('${gae.version}')%></version>
+				<configuration>
+					<address>0.0.0.0</address>
+					<port>8081</port>
+					<disableUpdateCheck>true</disableUpdateCheck>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

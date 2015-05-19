@@ -23,23 +23,21 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<%@ include file="meta-favicons.html" %>
-	
-	<t:style src="/static/fonts/font-awesome.css"/>
-	<t:style src="main.css"/>
+  	<!-- bower:css -->
+	<!-- endbower -->
+	<!-- injector:css -->
+  	<!-- endinjector -->
   	${styles}
-  	<t:script src="/static/lib/modernizr/modernizr.js"/>
 </head>
 <body <c:forEach items="${dynAttrs}" var="dynAttr">${dynAttr.key}="${dynAttr.value}"</c:forEach> >
 	<div id="content">
 		<jsp:doBody/>
 	</div>
 	<div id="scripts">
-	  	<t:script src="/static/lib/lodash/lodash.js"/>
-	  	<t:script src="/static/lib/jquery/jquery.js"/>
-	  	<t:script src="/static/lib/angular/angular.js"/>
-	  	<t:script src="/static/lib/angular-bootstrap/ui-bootstrap-tpls.js"/>
-	  	<t:script src="/static/lib/angular-ui-router/angular-ui-router.js"/>
-	  	<t:script src="app.js"/>
+  		<!-- bower:js -->
+		<!-- endbower -->
+		<!-- injector:js -->
+  		<!-- endinjector -->
 	  	${scripts}	
   	</div>
 </body>

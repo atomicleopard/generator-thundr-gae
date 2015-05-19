@@ -1,12 +1,15 @@
 module.exports = function (grunt) {
-	'use strict';
+  'use strict';
 	
   require('load-grunt-tasks')(grunt);
   require('time-grunt')(grunt);
+  
+  var debugJs = false;
 
   grunt.config.init({
 	basic: {
 		src: 'src/main/static',
+		gen: 'target/generated-sources',
 		dist: 'src/main/webapp/static'
 	},
     yeoman: {
@@ -29,8 +32,9 @@ module.exports = function (grunt) {
     },
     
     clean: { // Clean generated assets - basically purges src/main/webapp/static
-    	static:	{ src: '<%%= basic.dist %>', 	dot: true },
-    	bower:	{ src: 'bower_components', 		dot: true }
+    	static:		{ src: '<%%= basic.dist %>',dot: true },
+    	bower:		{ src: 'bower_components',	dot: true },
+    	generated:	{ src: '<%%= basic.gen %>',	dot: true }
     },
     copy: { // Copy assets from src/main/static to /src/main/webapp/static
     	css: 		{ cwd: '<%%= srcs.css %>', 		src: '{,*/}*.css',						dest: '<%%= basic.dist %>/css/', 		expand: true },
@@ -39,7 +43,7 @@ module.exports = function (grunt) {
     	templates:	{ cwd: '<%%= srcs.templates %>',	src: '**/*.html',						dest: '<%%= basic.dist %>/templates/',	expand: true }
     },
     less: { // Compiles Less files in src/main/static/less/styles into src/main/webapp/static
-    	static: {
+    	generate: {
 			options: { 	compress: true, cleancss: true },
 			files: [{	cwd: '<%%= basic.src %>',	src: ['less/styles/**/*.less'],	dest: '<%%= basic.dist %>/styles/',	ext: '.css',	flatten: true, 	expand: true }]
 		}
@@ -50,51 +54,123 @@ module.exports = function (grunt) {
         	html: 'src/main/webapp/WEB-INF/tags/meta-favicons.html',
   	  		HTMLPrefix: "/static/images/favicon/"
         },
-        icons: {
+        generate: {
         	 src: '<%%= srcs.images %>/favicon/original.png',
              dest: '<%%= basic.dist %>/images/favicon'
         },
     },
-    ngAnnotate: {
-    	// Automatically add angular annotation for angular DI
+    jshint: {
+        js: [
+          'Gruntfile.js',
+          '<%%= basic.src %>/javascript/{,**/}*.js'
+        ],
         options: {
-        },
-        annotate: {
-        	files: [{	cwd: '<%%= basic.src %>',	src : [ 'javascript/**/*.js' ],	dest: '<%%= basic.dist %>/', expand: true }]
+            //jshintrc: '.jshintrc'
         }
     },
-    uglify: { // Generates output javascript from src/main/static/javascript
+    ngAnnotate: { // Automatically add angular annotation for angular DI - Generates files into target/generated-sources/javascript
+        js: {
+        	files: [{	
+        		cwd: '<%%= basic.src %>',	
+        		src : [ 'javascript/**/*.js' ],	
+        		dest: '<%%= basic.gen %>/', 
+        		expand: true 
+        	}]
+        }
+    },    
+    concat: { // Concatenates application javascript into one uber file
+        js: {
+          src: ['<%%= basic.gen %>/javascript/**/*.js', "!<%%= basic.gen %>/javascript/application.js"],
+          dest: '<%%= basic.gen %>/javascript/application.js'
+        },
+    },    
+    uglify: { // Uglify javascript from target/generated-sources/javascript into src/main/static/javascript 
     	js: {	
-    		options: {	beautify: true, sourceMap: true, sourceMapIncludeSources: true, mangle: false, compress: false },
-    		files: [{	cwd: '<%%= basic.src %>',	src : [ 'javascript/**/*.js' ],	dest: '<%%= basic.dist %>/', expand: true }]	
+    		files: [{
+    			cwd: '<%%= basic.gen %>/javascript',	
+    			src : [ '**/*.js' ],	
+    			dest: '<%%= basic.dist %>/javascript', 
+    			expand: true
+    		}]	
+    	},
+    	options: {	
+    		beautify: debugJs, 
+    		sourceMap: true, 
+    		sourceMapIncludeSources: true, 
+    		mangle: debugJs ? false : {}, 
+    		compress: debugJs ? false : {},
+    		wrap: true
     	}
     },
     bower: { // Install your bower dependencies to src/main/static/lib
-        install: { options: { targetDir: '<%%= basic.dist %>/lib', layout: 'byComponent' } }
+        copy: { 
+        	options: { 
+        		targetDir: '<%%= basic.dist %>/lib', 
+        		layout: function(type, component, source) {
+        			// We maintain the original bower layout, but only include main files
+        			var tokens = source.split("/");
+        			var end = tokens.length < 3 ? tokens.length : tokens.length - 1;
+        			return tokens.slice(1, end).join("/");
+        		}
+        	} 
+        }
     },
-    
-    
-    jshint: {
-        options: {
-          jshintrc: '.jshintrc'
-        },
-        all: [
-          'Gruntfile.js',
-          '<%%= basic.src %>/javascript/{,**/}*.js'
-        ]
-      },
+    injector: { // auto inject application files into page layout
+		  applicationResources: {
+			  files: [{   // Application javascript
+						  expand: true,
+						  cwd: '<%%= basic.dist %>/javascript/',
+						  src: debugJs ? ['**/*.js', '!application.js'] : ['application.js']
+					  },
+					  {   // Application styles
+						  expand: true,
+						  cwd: '<%%= basic.dist %>/styles/',
+						  src: ['**/*.css']
+					  }]			  
+		  },
+		  options: {
+			  relative: false,
+			  destFile: 'src/main/webapp/WEB-INF/tags/layout.tag', 
+			  ignorePath: 'src/main/webapp'
+		  },
+	},
+	wiredep: { // auto inject bower files into page layout (in dependency order
+		bowerResources: {
+		    src: ['src/main/webapp/WEB-INF/tags/layout.tag'],
+		    options: {
+		    	ignorePath: "../../../../../bower_components/",
+		    	fileTypes: {
+		    	    tag: {
+		    	      block: /(([ \t]*)<!--\s*bower:*(\S*)\s*-->)(\n|\r|.)*?(<!--\s*endbower\s*-->)/gi,
+		    	      detect: {
+		    	        js: /<script.*src=['"]([^'"]+)/gi,
+		    	        css: /<link.*href=['"]([^'"]+)/gi
+		    	      },
+		    	      replace: {
+		    	    	  js: '<script src="/static/lib/{{filePath}}"></script>',
+		        	      css: '<link rel="stylesheet" href="/static/lib/{{filePath}}" />'
+		    	      }
+		    	    }
+		    	},
+				exclude: [ /bootstrap.css/ ]
+		    }
+		}
+	},
       
     /**
      * Watch for changes to the asset groups and re-process as necessary.
      */
     watch: {
-    	css: 		{ tasks: ['copy:css'], 		files: ['<%%= basic.src %>/css/**/*.css'] },
-    	fonts: 		{ tasks: ['copy:fonts'], 	files: ['<%%= basic.src %>/fonts/**/*.<%%= extensions.fonts %>'] },
-    	images: 	{ tasks: ['copy:images'],	files: ['<%%= basic.src %>/images/**/*.<%%= extensions.images %>'] },
-    	js: 		{ tasks: ['uglify'],		files: ['<%%= basic.src %>/javascript/**/*.js'] },
-    	less: 		{ tasks: ['less'],			files: ['<%%= basic.src %>/less/**/*.less', ] },
-    	templates: 	{ tasks: ['copy:templates'],files: ['<%%= basic.src %>/templates/**/*.html'] },
-    	bower: 		{ tasks: ['bower'],			files: ['bower.json'] }
+    	gruntfile: { files: [ 'Gruntfile.js'] },
+    	bower: 		{ tasks: ['bower'],								files: ['bower.json'] },
+    	css: 		{ tasks: ['process-css', 'process-layout'], 	files: ['<%%= basic.src %>/css/**/*.css'] },
+    	favicon: 	{ tasks: ['process-favicon'],					files: ['<%%= basic.src %>/images/favicon/*.<%%= extensions.images %>'] },
+    	fonts: 		{ tasks: ['process-fonts'], 					files: ['<%%= basic.src %>/fonts/**/*.<%%= extensions.fonts %>'] },
+    	images: 	{ tasks: ['process-images'],					files: ['<%%= basic.src %>/images/**/*.<%%= extensions.images %>'] },
+    	js: 		{ tasks: ['process-js', 'process-layout'],		files: ['<%%= basic.src %>/javascript/**/*.js'] },
+    	less: 		{ tasks: ['process-css', 'process-layout'],		files: ['<%%= basic.src %>/less/**/*.less' ] },
+    	layout: 	{ tasks: ['process-layout'],					files: ['src/main/webapp/WEB-INF/tags/layout.tag' ] },
+    	templates: 	{ tasks: ['process-templates'],					files: ['<%%= basic.src %>/templates/**/*.html'] },
     },
       
 	connect : {
@@ -122,43 +198,65 @@ module.exports = function (grunt) {
              proxies : [ {
 				context : [ '/', '!/static' ],
 				host : 'localhost',
-				port : '<%%= yeoman.port + 1%>'
+				port : '<%%= yeoman.port + 1 %>'
              	}]
          	}
       	}
   	});
 
   	grunt.registerTask('default', [
-         'run',
+         'build',
+         'test',
+         'configureProxies',  
+         'connect:server',
          'watch'
     ]);
   	
 	grunt.registerTask('build', [
 		'clean:static',
-		'bower',		
-		'copy',
-		'favicons',
-		'less',
-		'ngAnnotate',
-		//'uglify'	
+		'bower',
+		'process-favicons',
+		'process-templates',
+		'process-images',
+		'process-fonts',
+		'process-css',
+		'process-js',	
+		'process-layout'
     ]);
-	
 	grunt.registerTask('test', [
+	                            
 	]);
 	
-	grunt.registerTask('run', [
-         'build',
-         'test',         
+	grunt.registerTask('process-favicons', [
+        'favicons'
+	]);
+	grunt.registerTask('process-js', [
+	    'jshint',
+		'ngAnnotate',
+		'concat',
+		'uglify'	
+	]);
+	
+	grunt.registerTask('process-css', [
+        'copy:css',
+  	    'less'
+  	]);
+	
+	grunt.registerTask('process-fonts', [
+	     'copy:fonts'
+	]);
+	
+	grunt.registerTask('process-templates', [
+         'copy:templates'
+	]);
+	grunt.registerTask('process-layout', [
+		'injector',
+		'wiredep'
     ]);
 	
-	grunt.registerTask('eclipse', [
-		'default'
-	]);
+	grunt.registerTask('process-images', [
+       'copy:images'
+ 	]);
 	
-	grunt.registerTask('intellij', [
-            'build',
-            'configureProxies',  
-            'connect:server',
-            'watch'
-	]);
+	
 };

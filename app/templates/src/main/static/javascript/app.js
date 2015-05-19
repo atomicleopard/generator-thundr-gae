@@ -1,7 +1,11 @@
-angular
-.module("app", [
+angular.module("app", [
+    "ngAnimate",
+    "angularMoment",
 	"ui.bootstrap",
 	"ui.router",
+	"LocalStorageModule",
+	'angulartics', 
+	'angulartics.google.analytics'
 ])
 .config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/");
@@ -9,6 +13,6 @@ angular
 	    .state('home', {
 	    	url: "/",
 	    	templateUrl: "/static/templates/home.html"
-	    })
-})
+	    });
+});
 	

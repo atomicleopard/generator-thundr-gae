@@ -10,11 +10,9 @@
 	keywords="Keywords For This Page" 
 	>
 	<jsp:attribute name="styles">
-		<t:style src="home.css"/>
 	</jsp:attribute>
 	
 	<jsp:attribute name="scripts">
-		<t:script src="controller/home-controller.js"/>
 	</jsp:attribute>
 	
 	<jsp:body>
