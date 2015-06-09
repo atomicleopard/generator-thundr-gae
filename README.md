@@ -2,7 +2,7 @@
 
 [![thundr Logo](http://3wks.github.io/thundr/static/img/logoFullSmall.png)](http://3wks.github.io/thundr/index.html) 
 
-This [Yeoman](http://yeoman.io) generator will create application scaffolding for a [thundr](http://3wks.github.io/thundr/) application
+This [Yeoman](http://yeoman.io) generator will create application scaffolding for a [thundr](http://3wks.github.io/thundr/)/AngularJS application
 ready for Google AppEngine which is setup up to use [Maven](http://maven.apache.org/), [Grunt](http://gruntjs.com) and [Bower](http://bower.io).
 
 This is the java hipster's toolchain of choice for modern web apps.
@@ -20,7 +20,7 @@ mvn appengine:update -PenvironmentName
 ```
 
 #### Have live changes to your css, javascript, less, fonts, images watch and processed in realtime 
-```grunt``` or ```grunt watch``` while running your app.
+```grunt``` while running your app.
 
 ##### Run the appengine locally
 ```
@@ -29,16 +29,12 @@ mvn appengine:devserver
 
 ##### Debug in Eclipse using the GPE and grunt watch
 Create a run-config in Eclipse using the GPE for a standard maven webapp on port 8080.
-Run grunt on the command line using ```grunt watch```
+Run grunt on the command line using ```grunt```
 
-##### Debug in IntelliJ using the Goolge Plugin and grunt intellij
+##### Debug in IntelliJ using the Google Plugin and grunt watch
 Create a run config in IntelliJ on port 8081
-Run grunt on the command line or IntelliJ's grunt integration ```grunt intellij```. This circumvents issues with IntelliJ not sycning file changes properly without frame
+Run grunt on the command line or IntelliJ's grunt integration ```grunt```. This circumvents issues with IntelliJ not sycning file changes properly without frame
 deactivation followed by reactivation.
-
-
-#### Run all your web tests
-```grunt test```
 
 
 This toolchain requires:
@@ -48,6 +44,7 @@ This toolchain requires:
 * Bower (installed globally using npm - ```npm install -g bower```)
 * Grunt (installed globally using npm - ```npm install -g grunt```)
 * This generator installed (```npm install -g generator-thundr-gae```)
+* ImageMagick installed (as per [grunt-favicons](https://github.com/gleero/grunt-favicons))
 
 Then just run the generator in your desired project directory and answer the questions:
 ```
@@ -67,6 +64,7 @@ you run it.
 * ```src/main/css``` contains any css files that you want output
 * ```src/main/font``` contains your font files (css, eot, svg, ttf, woff etc)
 * ```src/main/images``` contains image files
+* ```src/main/images/favicon``` contains 'original.png' - this will be generated into favicon and applicaiton icons automatically
 * ```src/main/javascript``` contains application javascript, they'll be minified
 * ```src/main/less/styles``` contains any less files that should result in an output css file.
 * ```src/main/less/mixins``` contains less mixins used by the less files in styles, but shouldn't result in css themselves

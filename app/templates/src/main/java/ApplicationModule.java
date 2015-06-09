@@ -4,9 +4,9 @@ import com.threewks.thundr.injection.BaseModule;
 import com.threewks.thundr.injection.UpdatableInjectionContext;
 import com.threewks.thundr.module.DependencyRegistry;
 import com.threewks.thundr.route.Router;
+import controllers.Routes;
 
 public class ApplicationModule extends BaseModule {
-
 	@Override
 	public void requires(DependencyRegistry dependencyRegistry) {
 		super.requires(dependencyRegistry);
@@ -24,7 +24,7 @@ public class ApplicationModule extends BaseModule {
 		super.start(injectionContext);
 
 		Router router = injectionContext.get(Router.class);
-		ApplicationRoutes.addRoutes(router);
+		Routes.addRoutes(router);
 	}
 
 }
