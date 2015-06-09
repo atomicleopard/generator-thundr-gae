@@ -1,6 +1,6 @@
 # generator-thundr-gae [![Build Status](https://travis-ci.org/atomicleopard/generator-thundr-gae.svg)](https://travis-ci.org/atomicleopard/generator-thundr-gae)
 
-[![thundr Logo](http://3wks.github.io/thundr/static/img/logoFullSmall.png)](http://3wks.github.io/thundr/index.html) 
+[![thundr Logo](http://3wks.github.io/thundr/2.0/static/img/logoFullSmall.png)](http://3wks.github.io/thundr/) 
 
 This [Yeoman](http://yeoman.io) generator will create application scaffolding for a [thundr](http://3wks.github.io/thundr/)/AngularJS application
 ready for Google AppEngine which is setup up to use [Maven](http://maven.apache.org/), [Grunt](http://gruntjs.com) and [Bower](http://bower.io).
