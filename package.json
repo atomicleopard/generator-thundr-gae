@@ -1,6 +1,6 @@
 {
   "name": "generator-thundr-gae",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "Yeoman generator for thundr-gae - Creates a Java Google Appengine on the thundr framework - http://3wks.github.io/thundr/",
   "license": "MIT",
   "main": "app/index.js",
