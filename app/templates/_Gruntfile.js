@@ -80,7 +80,7 @@ module.exports = function (grunt) {
     },    
     concat: { // Concatenates application javascript into one uber file
         js: {
-          src: ['<%%= basic.gen %>/javascript/**/*.js', "!<%%= basic.gen %>/javascript/application.js"],
+          src: ['<%%= basic.gen %>/javascript/app.js', '<%%= basic.gen %>/javascript/**/*.js', "!<%%= basic.gen %>/javascript/application.js"],
           dest: '<%%= basic.gen %>/javascript/application.js'
         },
     },    
