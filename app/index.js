@@ -53,7 +53,6 @@ var ThundrGaeGenerator = yeoman.generators.Base.extend({
     this.mkdir('src/test/java/');
     this.mkdir('src/main/static/');
     this.mkdir('src/main/static/css');
-    this.mkdir('src/main/static/fonts');
     this.mkdir('src/main/static/images');
     this.mkdir('src/main/static/templates');
     

@@ -1,11 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
+	<!-- Docs available here: https://cloud.google.com/appengine/docs/java/modules/#Java_Instance_scaling_and_class  -->
+    
     <!-- These will be managed using maven filters -->
     <application>@appId@</application>
     <version>@appVersion@</version>
     
-    <threadsafe>true</threadsafe>
+     <!-- INSTANCE TYPE control
+	     B1		128mb	600mhz	$0.05
+		 B2		256mb	1.2ghz	$0.10
+		 B4		512mb	2.4ghz	$0.20
+		 B4_1G	1024mb	2.4ghz	$0.30
+		 B8		1024mb	4.8ghz	$0.40
+		 F1		128mb	600mhz	$0.05
+		 F2		256mb	1.2ghz	$0.10
+		 F4		512mb	2.4ghz	$0.20
+		 F4_1G	1024mb	2.4ghz	$0.30 
+     <instance-class>B8</instance-class>
+     -->
 
+	<module>default</module>     
+    <!-- MODULE control
+    Uncomment this to cause a module called 'backend' to be deployed when mvn appengine:update called
+     
+    <module>backend</module>
+    <manual-scaling>
+    	<instances>5</instances>
+  	</manual-scaling>
+     -->
+     
+    <threadsafe>true</threadsafe>
     <system-properties>
         <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
     </system-properties>
