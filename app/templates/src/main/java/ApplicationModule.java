@@ -4,12 +4,15 @@ import com.threewks.thundr.injection.BaseModule;
 import com.threewks.thundr.injection.UpdatableInjectionContext;
 import com.threewks.thundr.module.DependencyRegistry;
 import com.threewks.thundr.route.Router;
+import com.threewks.thundr.view.jsp.JspModule;
+
 import controllers.Routes;
 
 public class ApplicationModule extends BaseModule {
 	@Override
 	public void requires(DependencyRegistry dependencyRegistry) {
 		super.requires(dependencyRegistry);
+		dependencyRegistry.addDependency(JspModule.class);
 		dependencyRegistry.addDependency(GaeModule.class);
 		dependencyRegistry.addDependency(ObjectifyModule.class);
 	}

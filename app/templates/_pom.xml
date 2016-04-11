@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>com.threewks.thundr</groupId>
 		<artifactId>thundr-gae-app</artifactId>
-		<version>3</version>
+		<version>4-SNAPSHOT</version>
 	</parent>
 
 	<properties>
@@ -34,6 +34,11 @@
 
 	<dependencies>
 		<!-- Additional or overridden dependencies go here -->
+		<dependency>
+		    <groupId>com.threewks.thundr</groupId>
+			<artifactId>thundr-gae-user</artifactId>
+			<version><%= _.unescape('${thundr.version}')%></version>
+		</dependency>
 	</dependencies>
 
 	<build>

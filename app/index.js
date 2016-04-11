@@ -43,6 +43,7 @@ var ThundrGaeGenerator = yeoman.generators.Base.extend({
 
   app: function () {
     this.copy('gitignore', '.gitignore');
+    this.copy('java-version', '.java-version');
     this.template('_Gruntfile.js', 'Gruntfile.js');
     this.template('_pom.xml', 'pom.xml');
     this.template('_package.json', 'package.json');
