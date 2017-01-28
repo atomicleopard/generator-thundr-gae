@@ -113,7 +113,7 @@ module.exports = function (grunt) {
           dest: '<%%= basic.gen %>/javascript/application.js'
         },
     },    
-    uglify: { // Uglify javascript from target/generated-sources/javascript into src/main/static/javascript 
+    uglify: { // Uglify javascript from target/generated-sources/javascript into src/main/webapp/static/javascript 
     	js: {	
     		files: [{
     			cwd: '<%%= basic.gen %>/javascript',	
@@ -241,13 +241,13 @@ module.exports = function (grunt) {
      */
     watch: {
     	gruntfile: 	{ tasks: ['build'],								files: [ 'Gruntfile.js'] },
-    	bower: 		{ tasks: ['process-bower', 'process-layout'],	files: ['bower.json'] },
+    	bower: 		{ tasks: ['process-bower'],						files: ['bower.json'] },
     	css: 		{ tasks: ['process-css'], 						files: ['<%%= basic.src %>/css/**/*.css'] },
     	favicon: 	{ tasks: ['process-favicon'],					files: ['<%%= basic.src %>/images/favicon/*.<%%= extensions.images %>'] },
     	fonts: 		{ tasks: ['process-fonts'], 					files: ['<%%= basic.src %>/fonts/**/*.<%%= extensions.fonts %>'] },
     	images: 	{ tasks: ['process-images'],					files: ['<%%= basic.src %>/images/**/*.<%%= extensions.images %>'] },
-    	js: 		{ tasks: ['process-js', 'process-layout'],		files: ['<%%= basic.src %>/javascript/**/*.js'] },
-    	less: 		{ tasks: ['process-css', 'process-layout'],		files: ['<%%= basic.src %>/less/**/*.less' ] },
+    	js: 		{ tasks: ['process-js'],						files: ['<%%= basic.src %>/javascript/**/*.js'] },
+    	less: 		{ tasks: ['process-css'],						files: ['<%%= basic.src %>/less/**/*.less' ] },
     	layout: 	{ tasks: ['process-layout'],					files: ['src/main/webapp/WEB-INF/tags/layout.tag' ] },
     	templates: 	{ tasks: ['process-templates'],					files: ['<%%= basic.src %>/templates/**/*.html'] },
     },

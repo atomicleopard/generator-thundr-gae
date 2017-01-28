@@ -44,6 +44,7 @@ This toolchain requires:
 * Bower (installed globally using npm - ``npm install -g bower``)
 * Grunt (installed globally using npm - ``npm install -g grunt``)
 * This generator installed (``npm install -g generator-thundr-gae``)
+* or - if already installed (``npm update -g generator-thundr-gae``)
 * ImageMagick installed (as per [grunt-favicons](https://github.com/gleero/grunt-favicons))
 
 Then just run the generator in your desired project directory and answer the questions:

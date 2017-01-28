@@ -3,7 +3,6 @@ angular.module("app", [
     "angularMoment",
 	"ui.bootstrap",
 	"ui.router",
-	"LocalStorageModule",
 	'angulartics', 
 	'angulartics.google.analytics'
 ])
